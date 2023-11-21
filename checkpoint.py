@@ -1,11 +1,23 @@
-class Checkpoint():  # Vous pouvez ajouter des classes parentes
-    
+import pygame
+
+
+class Checkpoint():  
+
+    # Constructeur
+
     def __init__(self, x, y, checkpoint_id):
-        # A completer
-        pass
+        
+        # coordonnées du block
+        self.x = x
+        self.y = y
+        
+        # identifiant du checkpoint
+        self.id = checkpoint_id
+
+        # couleur du block
+        self.color = (128, 128, 128)
     
-    def draw(self, sreen):
-        # A completer
-        pass
+    # methode draw qui va dessiner un carré sur l'écran
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 50))
     
-    # A completer
