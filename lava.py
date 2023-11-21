@@ -17,3 +17,7 @@ class Lava():
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 50))
     
+
+
+
+    # modification du fichier
