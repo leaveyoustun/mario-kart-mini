@@ -1,11 +1,23 @@
-class Lava():  # Vous pouvez ajouter des classes parentes
+import pygame
+
+class Lava(): 
     
-    def __init__(self, x, y):
-        # A completer
-        pass
+    # Constructeur
+
+    def __init__(self, x, y): 
+        
+        # coordonnées du block
+        self.x = x
+        self.y = y
+
+        # couleur du block
+        self.color = (255, 0, 0)
     
-    def draw(self, sreen):
-        # A completer
-        pass
+    # methode draw qui va dessiner un carré sur l'écran
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 50))
     
-    # A completer
+
+
+
+    # modification du fichier

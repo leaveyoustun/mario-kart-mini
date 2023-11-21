@@ -1,0 +1,1 @@
+# methode draw qui va dessiner un carré sur l'écran
