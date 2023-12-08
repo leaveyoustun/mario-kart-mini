@@ -32,6 +32,7 @@ Vous ne devez pas modifier ces quatre lignes de code
 ====================================================
 """
 kart = Kart(controller)
+#controller.kart = kart
 track = Track(string, initial_position, initial_angle)
 track.add_kart(kart)
 track.play()

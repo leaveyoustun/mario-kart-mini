@@ -1,7 +1,7 @@
 import pygame
 
 class Lava(): 
-    
+    friction = 0.02
     # Constructeur
 
     def __init__(self, x, y): 

@@ -26,13 +26,13 @@ class AI():
         # =================================================
         # D'abord trouver la position du checkpoint
         # =================================================
-        if self.kart.next_checkpoint_id == 0:
+        if self.kart.next_checkpoint == 0:
             char = 'C'
-        elif self.kart.next_checkpoint_id == 1:
+        elif self.kart.next_checkpoint == 1:
             char = 'D'
-        elif self.kart.next_checkpoint_id == 2:
+        elif self.kart.next_checkpoint == 2:
             char = 'E'
-        elif self.kart.next_checkpoint_id == 3:
+        elif self.kart.next_checkpoint == 3:
             char = 'F'
 
         # On utilise x et y pour decrire les coordonnees dans la chaine de caractere
@@ -66,7 +66,7 @@ class AI():
         
         # L'angle relatif correspond a la rotation que doit faire le kart pour se trouver face au checkpoint
         # On applique l'operation (a + pi) % (2*pi) - pi pour obtenir un angle entre -pi et pi
-        relative_angle = (next_checkpoint_angle - self.kart.angle + math.pi) % (2 * math.pi) - math.pi
+        relative_angle = (next_checkpoint_angle - self.kart.orientation + math.pi) % (2 * math.pi) - math.pi
         
         # =================================================
         # Enfin, commander le kart en fonction de l'angle

@@ -3,6 +3,7 @@ import pygame
 
 class Checkpoint():  
 
+    friction = 0.02
     # Constructeur
 
     def __init__(self, x, y, checkpoint_id):

@@ -1,6 +1,9 @@
 import pygame
+from surface import Surface
 
 class Grass():  
+
+    friction = 0.2
 
     # Constructeur
     
@@ -12,6 +15,7 @@ class Grass():
 
         # couleur du block
         self.color = (0, 255, 0)
+
     
     # methode draw qui va dessiner un carré sur l'écran
     def draw(self, screen):
