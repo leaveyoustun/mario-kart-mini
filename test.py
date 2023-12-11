@@ -47,7 +47,9 @@ class SequencePlayer():
             command = self.sequence[self.time]
         self.time += 1
         #print(pygame.key.get_pressed()[pygame.K_LEFT],pygame.key.get_pressed()[pygame.K_UP],pygame.key.get_pressed()[pygame.K_DOWN],pygame.key.get_pressed()[pygame.K_RIGHT])
-        time.sleep(0.05)
+        #time.sleep(0.05)
+        #if pygame.key.get_pressed()[pygame.K_UP]:
+        #    time.sleep(0.02)
         return command
 
 
