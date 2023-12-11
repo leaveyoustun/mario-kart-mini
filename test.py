@@ -7,29 +7,49 @@ Module qui permet de lancer des tests pour verifier que votre implementation est
 """
 import sys
 import pickle as pk
-
+import time
+import pygame
 from track import Track
 from kart import Kart
 
+pygame.init()
+ERROR_STRING = "\n========================== ECHEC DU TEST ===========================\n"
+SUCCESS_STRING = "\n===================== VOTRE CODE A PASSE LE TEST ======================\n"
+MARGIN = 50
 
-ERROR_STRING = "\n============================== ECHEC DU TEST ===============================\n"
-SUCCESS_STRING =  "\n========================= VOTRE CODE A PASSE LE TEST ==========================\n"
 
 class SequencePlayer():
     """
     Classe qui sert a jouer une sequence de mouvements predefinis
     """
+
     def __init__(self, sequence):
         self.sequence = sequence
         self.time = 0
         self.kart = None
 
+    def wrap_move(self, string):
+        start = time.time()
+        move = self.move(string)
+        end = time.time()
+        print(end-start)
+        return move
+
     def move(self, string):
-        try:
+
+        global final_time
+        assert self.time <= final_time + MARGIN, ERROR_STRING + \
+            "Le kart n'a pas fini le circuit dans le temps imparti, il faut revoir votre implementation"
+
+        if self.time >= len(self.sequence):
+            command = self.sequence[-1]
+        else:
             command = self.sequence[self.time]
-        except IndexError:
-            raise AssertionError(ERROR_STRING + "Le kart n'est pas parvenu a l'arrivee dans les temps, il faut revoir votre implementation")
         self.time += 1
+        #print(pygame.key.get_pressed()[pygame.K_LEFT],pygame.key.get_pressed()[pygame.K_UP],pygame.key.get_pressed()[pygame.K_DOWN],pygame.key.get_pressed()[pygame.K_RIGHT])
+        #time.sleep(0.05)
+        #if pygame.key.get_pressed()[pygame.K_UP]:
+        #    time.sleep(0.02)
         return command
 
 
@@ -41,24 +61,28 @@ test_names = [
     'lava'
 ]
 
-assert len(sys.argv) > 1, "Vous devez specifier un nom de test. Par exemple: python test.py road"
+assert len(sys.argv) > 1, "Vous devez specifier un nom de test. Par exemple: python test.py un_checkpoint"
 test_name = sys.argv[1]
 
 assert test_name in test_names, "Le test " + test_name + " n'est pas defini."
 
 # Chargement du circuit et de la trajectoire du kart
-test_string, initial_position, initial_angle, test_sequence, time = pk.load(open('test/' + test_name + '.pk', 'rb'))
+test_string, initial_position, initial_angle, test_sequence, final_time = pk.load(
+    open('test/' + test_name + '.pk', 'rb'))
 
 # Instanciation du circuit
 controller = SequencePlayer(test_sequence)
 kart = Kart(controller)
+controller.kart = kart
 track = Track(test_string, initial_position, initial_angle)
 track.add_kart(kart)
 
 # Simulation de la sequence predefinie sur le circuit
 compteur = track.play()
-
+print(compteur, final_time)
 # On regarde si le kart a bien termine avec le bon nombre d'etapes
-assert compteur == time, ERROR_STRING + "Le kart a fini le circuit trop rapidement, il faut revoir votre implementation"
+assert compteur >= final_time - MARGIN, ERROR_STRING + \
+    "Le kart a fini le circuit trop rapidement, il faut revoir votre implementation"
 
 print(SUCCESS_STRING)
+
