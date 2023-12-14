@@ -15,7 +15,7 @@ GRRRRGGGGGGGGGGGGGGGGRRRRG
 GFFRRGGGGGGGGGGGGGGGGRRRRG
 GLRRRGGGGGGGGGGGGGGGGRRRRG
 GRRRRGGGGGGGGGGGGGGGGDDDDG
-GRRRRRERRRRRRRBRRRRRRRRLLG
+GRRRRRERRRRRRRBRRRRRRRRRRG
 GRRRRRERRRRRRRBRRRRRRRRRRG
 GLRRRRERRRRRGGBRRRRRRRRRRG
 GLLRRRERRRRRGGBRRRRRRRRRRG
@@ -25,14 +25,14 @@ GGGGGGGGGGGGGGGGGGGGGGGGGG"""
 initial_position = [75, 75]
 initial_angle = 0
 
-controller =  Human()  # ou AI()
+controller =  AI()  # ou AI()
 """
 ==================== ATTENTION =====================
 Vous ne devez pas modifier ces quatre lignes de code 
 ====================================================
 """
 kart = Kart(controller)
-#controller.kart = kart
+controller.kart = kart
 track = Track(string, initial_position, initial_angle)
 track.add_kart(kart)
 track.play()
