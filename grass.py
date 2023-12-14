@@ -12,15 +12,15 @@ class Grass(Surface):
 
         # initialisation d'une instance de Grass à l'aide de la classe mère Surface
         Surface.__init__(self, x, y)
-        self.__color = (0, 255, 0)
+        self.__image = pygame.image.load('grass.jpg')                   # chargement de l'image
+        self.__image = pygame.transform.scale(self.__image, (50, 50))  # dimension de l'image
+        self.__rect = self.__image.get_rect()  
+        self.__rect.center = (self._position[0]+25, self._position[1]+25)
+
+    # Methode pour dessiner le kart
+    def draw(self, screen):
+        screen.blit(self.__image, self.__rect.topleft)
 
     @classmethod
     def friction(cls):
         return cls.__friction
-    
-    
-    # methode draw qui va dessiner un carré sur l'écran
-    def draw(self, screen):
-        pygame.draw.rect(screen, self.__color, (self._position[0], self._position[1], 50, 50))
-        
-    

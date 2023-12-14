@@ -26,11 +26,11 @@ class Kart(Surface):
 
         # Valeurs initiales des parametres du kart 
         Surface.__init__(self, 75, 75)  
-        self.__orientation = 0 
-        self.__velocity = 0
+        self._orientation = 0 
+        self._velocity = 0
         self.__angular_velocity = 0
         self.__acceleration = 0
-        self.__next_checkpoint = 0
+        self._next_checkpoint = 0
         self.__last_checkpoint = 0
 
         # Paramètres du kart en checkpoint
@@ -49,6 +49,8 @@ class Kart(Surface):
         self.__up = False
         self.__down = False
 
+        self._death = 0
+
     #Getter pour has_finished
     @property
     def has_finished(self):
@@ -62,8 +64,8 @@ class Kart(Surface):
     # Commande permettant de remettre le kart en position initiale
     def reset(self, initial_position, initial_orientation):
         self._position = initial_position
-        self.__orientation = initial_orientation
-        self.__velocity = 0
+        self._orientation = initial_orientation
+        self._velocity = 0
         self.__angular_velocity = 0
         self.__acceleration = 0
         self.__has_finished = False
@@ -71,21 +73,21 @@ class Kart(Surface):
     # Commande pour accelerer vers l'avant    
     def forward(self):
         self.__up = True
-        print("UP", end="  ")
+        #print("UP", end="  ")
         
         self.__acceleration = MAX_ACCELERATION
     
     # Commande pour accelerer vers l'arrière
     def backward(self):
         self.__down = True
-        print("DOWN", end="  ")
+        #print("DOWN", end="  ")
 
         self.__acceleration = -MAX_ACCELERATION
 
     # Commande pour tourner vers la gauche
     def turn_left(self):
         self.__left = True
-        print("LEFT", end="  ")
+        #print("LEFT", end="  ")
         
         #direction = -1 if self.velocity < 0 else 1
         #self.angular_velocity = direction * -MAX_ANGLE_VELOCITY
@@ -95,7 +97,7 @@ class Kart(Surface):
     # Commande pour tourner vers la droite   
     def turn_right(self):
         self.__right = True
-        print("RIGHT", end="  ")
+        #print("RIGHT", end="  ")
         
         #direction = -1 if self.velocity < 0 else 1
         #self.angular_velocity = direction * MAX_ANGLE_VELOCITY
@@ -107,22 +109,22 @@ class Kart(Surface):
         # on itinialise une seule fois au début du jeu la matrice modifiée en deux dimensions string2D et les dimensions de l'écran
         if not hasattr(self, 'string2D'):  
             self.__string2D = string.split('\n')
-            self.__screen_width, self.screen_height = self.__screen_size(self.__string2D)
+            self.__screen_width, self.screen_height = self._screen_size(self.__string2D)
             self.__last_checkpoint = self.__get_last_checkpoint(string)
             
 
         # on vérifie le type de la surface
 
-        surface, checkpoint_id = self.__get_surface(self.__string2D, self.__screen_width, self.screen_height)
+        surface, checkpoint_id = self._get_surface(self.__string2D, self.__screen_width, self.screen_height)
 
         if surface == Checkpoint:
-            if checkpoint_id == self.__next_checkpoint:
+            if checkpoint_id == self._next_checkpoint:
                 if checkpoint_id == self.__last_checkpoint:
                     self.__has_finished = True
                 else:
                     self.__position_checkpoint = self._position
-                    self.__orientation_checkpoint= self.__orientation
-                    self.__next_checkpoint += 1
+                    self.__orientation_checkpoint= self._orientation
+                    self._next_checkpoint += 1
                 
 
         
@@ -137,24 +139,23 @@ class Kart(Surface):
             if self.__left == self.__right:
                 self.__angular_velocity = 0
             
-            self.__orientation += self.__angular_velocity
+            self._orientation += self.__angular_velocity
 
             # Actualisation de la vitesse
 
             if surface == Boost:
-                self.__velocity = 25.
+                self._velocity = 25.
             else:
-                self.__velocity = (self.__acceleration - surface.friction() * self.__velocity * math.cos(self.__angular_velocity)) + self.__velocity * math.cos(self.__angular_velocity)
+                self._velocity = (self.__acceleration - surface.friction() * self._velocity * math.cos(self.__angular_velocity)) + self._velocity * math.cos(self.__angular_velocity)
 
             # Actualisation de la position
             self._position = (
-                self._position[0] + self.__velocity * math.cos(self.__orientation),
-                self._position[1] + self.__velocity * math.sin(self.__orientation)
+                self._position[0] + self._velocity * math.cos(self._orientation),
+                self._position[1] + self._velocity * math.sin(self._orientation)
             )
         
             # On remet à 0 l'acceleration et la vitesse angulaire pour 
             # le frame suivant
-
             self.__acceleration = 0
             self.__angular_velocity = 0
 
@@ -164,7 +165,7 @@ class Kart(Surface):
             self.__up = False
             self.__down = False
 
-            print("\n")
+            #print("\n")
             # On dessine le kart à la nouvelle position
             self.draw(screen)
 
@@ -175,14 +176,14 @@ class Kart(Surface):
         self.__rect.center = self._position
 
         # Rotation de l'image du kart en fonction de l'orientation
-        rotated_image = pygame.transform.rotate(self.__image, -math.degrees(self.__orientation+math.pi/2))
+        rotated_image = pygame.transform.rotate(self.__image, -math.degrees(self._orientation+math.pi/2))
         new_rect = rotated_image.get_rect(center=self.__rect.center)
 
         # Affichage de l'image sur l'écran
         screen.blit(rotated_image, new_rect.topleft)
 
     # méthode pour calculer la taille de l'écran en utilisant la matrice modifiée string2D
-    def __screen_size(self, string2D):
+    def _screen_size(self, string2D):
 
         # on calcule la largeur et la hauteur de l'écran
         height = len(string2D)*BLOCK_SIZE
@@ -201,7 +202,7 @@ class Kart(Surface):
 
 
     # methode pour calculer la friction en fonction de la surface actuelle du kart avec la matrice modifiée string2D
-    def __get_surface(self, string2D, width, height):
+    def _get_surface(self, string2D, width, height):
 
         # on vérifie tout d'abord si l'on sort de l'écran
 
@@ -241,8 +242,9 @@ class Kart(Surface):
     def __return_to_checkpoint(self):
 
         self._position = self.__position_checkpoint
-        self.__orientation = self.__orientation_checkpoint
-        self.__velocity = 0
+        self._orientation = self.__orientation_checkpoint
+        self._velocity = 0
+        self._death +=1
 
 
 

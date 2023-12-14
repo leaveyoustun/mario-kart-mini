@@ -3,19 +3,18 @@ from surface import Surface
 from abc import ABC, abstractmethod
 
 class Lava(Surface): 
-    #friction = 0.02
+
     # Constructeur
+    
+    def __init__(self, x, y):
 
-    def __init__(self, x, y): 
-        
-        # initialisation d'une instance de Lava à l'aide de la classe mère Surface
+        # initialisation d'une instance de Grass à l'aide de la classe mère Surface
         Surface.__init__(self, x, y)
+        self.__image = pygame.image.load('lava.jpg')                   # chargement de l'image
+        self.__image = pygame.transform.scale(self.__image, (50, 50))  # dimension de l'image
+        self.__rect = self.__image.get_rect()  
+        self.__rect.center = (self._position[0]+25, self._position[1]+25)
 
-        # couleur du block
-        self.__color = (255, 0, 0)
-    
-    # methode draw qui va dessiner un carré sur l'écran
+    # Methode pour dessiner le kart
     def draw(self, screen):
-        pygame.draw.rect(screen, self.__color, (self._position[0], self._position[1], 50, 50))
-        
-    
+        screen.blit(self.__image, self.__rect.topleft)
