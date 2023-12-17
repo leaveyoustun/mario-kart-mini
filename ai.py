@@ -13,6 +13,7 @@ import time
 MAX_ANGLE_VELOCITY = 0.05
 BLOCK_SIZE = 50
 DISTANCE_TURN = 3
+
 class AI(Controller):
     
     def __init__(self):
@@ -181,7 +182,6 @@ class AI(Controller):
             
         key_list = [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]
         keys = {key: command[i] for i, key in enumerate(key_list)}
-        time.sleep(0.02)
         return keys
     
     # Méthode pour calculer le chemin entier avec l'algorithme A*

@@ -24,16 +24,15 @@ GGGGGGGGGGGGGGGGGGGGGGGGGG"""
 
 
 # La position et l'orientation initiale du kart
-initial_position = [75, 75]
+initial_position = [25, 25]
 initial_angle = 0
-controller =  AI()  # ou AI()
+controller =  Human()  # ou AI()
 """
 ==================== ATTENTION =====================
 Vous ne devez pas modifier ces quatre lignes de code 
 ====================================================
 """
 kart = Kart(controller)
-controller.kart = kart
 track = Track(string, initial_position, initial_angle)
 track.add_kart(kart)
 track.play()

@@ -2,7 +2,7 @@ import pygame
 from abc import ABC, abstractmethod
 
 
-class Controller():
+class Controller(ABC):
 
     def __init__(self):
         self.kart = None

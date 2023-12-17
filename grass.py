@@ -17,7 +17,7 @@ class Grass(Surface):
         self.__rect = self.__image.get_rect()  
         self.__rect.center = (self._position[0]+25, self._position[1]+25)
 
-    # Methode pour dessiner le kart
+    # Methode pour dessiner la surface
     def draw(self, screen):
         screen.blit(self.__image, self.__rect.topleft)
 
