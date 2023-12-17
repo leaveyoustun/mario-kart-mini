@@ -26,16 +26,16 @@ class Kart(Surface):
 
         # Valeurs initiales des parametres du kart 
         Surface.__init__(self, 75, 75)  
-        self._orientation = 0 
-        self._velocity = 0
+        self.__orientation = 0 
+        self.__velocity = 0
         self.__angular_velocity = 0
         self.__acceleration = 0
-        self._next_checkpoint = 0
+        self.__next_checkpoint = 0
         self.__last_checkpoint = 0
 
         # Paramètres du kart en checkpoint
 
-        self.__position_checkpoint = (25,25)
+        self.__position_checkpoint = (75,75)
         self.__orientation_checkpoint= 0
 
         # Initialisation image pour kart
@@ -49,7 +49,9 @@ class Kart(Surface):
         self.__up = False
         self.__down = False
 
-        self._death = 0
+        # Initialisation du compteur de morts et du booléen qui nous dit si le kart est mort ou pas
+        self.__death_count = 0
+        self.__death = False
 
     #Getter pour has_finished
     @property
@@ -60,12 +62,60 @@ class Kart(Surface):
     @property
     def controller(self):
         return self.__controller
+    
+    #Getter pour next_checkpoint
+    @property
+    def next_checkpoint(self):
+        return self.__next_checkpoint
+    
+    #Getter pour death
+    @property
+    def death(self):
+        return self.__death
+    
+    #Setter pour death
+    @death.setter
+    def death(self, value):
+        self.__death = value
+    
+    #Getter pour death_count
+    @property
+    def death_count(self):
+        return self.__death_count
+    
+    #Getter pour orientation
+    @property
+    def orientation(self):
+        return self.__orientation
+    
+    #Getter pour velocity
+    @property
+    def velocity(self):
+        return self.__velocity
+    
+    #Getter pour last_checkpoint
+    @property
+    def last_checkpoint(self):
+        return self.__last_checkpoint
+    
+    #Setter pour last_checkpoint
+    @last_checkpoint.setter
+    def last_checkpoint(self, value):
+        self.__last_checkpoint = value
+
+    #Getter pour position_checkpoint
+    @property
+    def position_checkpoint(self):
+        return self.__position_checkpoint
+    
+    
+    
        
     # Commande permettant de remettre le kart en position initiale
     def reset(self, initial_position, initial_orientation):
         self._position = initial_position
-        self._orientation = initial_orientation
-        self._velocity = 0
+        self.__orientation = initial_orientation
+        self.__velocity = 0
         self.__angular_velocity = 0
         self.__acceleration = 0
         self.__has_finished = False
@@ -73,61 +123,57 @@ class Kart(Surface):
     # Commande pour accelerer vers l'avant    
     def forward(self):
         self.__up = True
-        #print("UP", end="  ")
-        
         self.__acceleration = MAX_ACCELERATION
     
     # Commande pour accelerer vers l'arrière
     def backward(self):
         self.__down = True
-        #print("DOWN", end="  ")
-
         self.__acceleration = -MAX_ACCELERATION
 
     # Commande pour tourner vers la gauche
     def turn_left(self):
         self.__left = True
-        #print("LEFT", end="  ")
-        
-        #direction = -1 if self.velocity < 0 else 1
-        #self.angular_velocity = direction * -MAX_ANGLE_VELOCITY
-
         self.__angular_velocity = -MAX_ANGLE_VELOCITY
 
     # Commande pour tourner vers la droite   
     def turn_right(self):
         self.__right = True
-        #print("RIGHT", end="  ")
-        
-        #direction = -1 if self.velocity < 0 else 1
-        #self.angular_velocity = direction * MAX_ANGLE_VELOCITY
         self.__angular_velocity = MAX_ANGLE_VELOCITY
 
     # Commande pour actualiser la position du kart
     def update_position(self, string, screen):
 
         # on itinialise une seule fois au début du jeu la matrice modifiée en deux dimensions string2D et les dimensions de l'écran
-        if not hasattr(self, 'string2D'):  
+        if not hasattr(self, '__string2D'):  
             self.__string2D = string.split('\n')
             self.__screen_width, self.screen_height = self._screen_size(self.__string2D)
-            self.__last_checkpoint = self.__get_last_checkpoint(string)
+            self.__last_checkpoint = self._get_last_checkpoint(string)
             
 
         # on vérifie le type de la surface
 
-        surface, checkpoint_id = self._get_surface(self.__string2D, self.__screen_width, self.screen_height)
+        surface, checkpoint_id = self.__get_surface(self.__string2D, self.__screen_width, self.screen_height)
+
 
         if surface == Checkpoint:
-            if checkpoint_id == self._next_checkpoint:
+
+            # si c'est le bon checkpoint, on réinitialise death_count et on vérifie si c'est la fin
+            if checkpoint_id == self.__next_checkpoint:
+                self.__death_count = 0
+
+                # si c'est le dernier checkpoint, on finit le jeu
                 if checkpoint_id == self.__last_checkpoint:
                     self.__has_finished = True
+
+                # sinon, on stocke en mémoire la position et l'orientation du kart
                 else:
-                    self.__position_checkpoint = self._position
-                    self.__orientation_checkpoint= self._orientation
-                    self._next_checkpoint += 1
+                    self._position_checkpoint = self._position
+                    self.__orientation_checkpoint= self.__orientation
+                    self.__next_checkpoint += 1
                 
 
         
+        # si c'est de la lave, on retourne au checkpoint
         if surface == Lava:
             self.__return_to_checkpoint()
         else:
@@ -139,19 +185,19 @@ class Kart(Surface):
             if self.__left == self.__right:
                 self.__angular_velocity = 0
             
-            self._orientation += self.__angular_velocity
+            self.__orientation += self.__angular_velocity
 
             # Actualisation de la vitesse
 
             if surface == Boost:
-                self._velocity = 25.
+                self.__velocity = 25.
             else:
-                self._velocity = (self.__acceleration - surface.friction() * self._velocity * math.cos(self.__angular_velocity)) + self._velocity * math.cos(self.__angular_velocity)
+                self.__velocity = (self.__acceleration - surface.friction() * self.__velocity * math.cos(self.__angular_velocity)) + self.__velocity * math.cos(self.__angular_velocity)
 
             # Actualisation de la position
             self._position = (
-                self._position[0] + self._velocity * math.cos(self._orientation),
-                self._position[1] + self._velocity * math.sin(self._orientation)
+                self._position[0] + self.__velocity * math.cos(self.__orientation),
+                self._position[1] + self.__velocity * math.sin(self.__orientation)
             )
         
             # On remet à 0 l'acceleration et la vitesse angulaire pour 
@@ -165,7 +211,6 @@ class Kart(Surface):
             self.__up = False
             self.__down = False
 
-            #print("\n")
             # On dessine le kart à la nouvelle position
             self.draw(screen)
 
@@ -176,7 +221,7 @@ class Kart(Surface):
         self.__rect.center = self._position
 
         # Rotation de l'image du kart en fonction de l'orientation
-        rotated_image = pygame.transform.rotate(self.__image, -math.degrees(self._orientation+math.pi/2))
+        rotated_image = pygame.transform.rotate(self.__image, -math.degrees(self.__orientation+math.pi/2))
         new_rect = rotated_image.get_rect(center=self.__rect.center)
 
         # Affichage de l'image sur l'écran
@@ -202,7 +247,7 @@ class Kart(Surface):
 
 
     # methode pour calculer la friction en fonction de la surface actuelle du kart avec la matrice modifiée string2D
-    def _get_surface(self, string2D, width, height):
+    def __get_surface(self, string2D, width, height):
 
         # on vérifie tout d'abord si l'on sort de l'écran
 
@@ -229,7 +274,7 @@ class Kart(Surface):
         return surface, checkpoint_id
     
     # méthode pour calculer le dernier checkpoint du track
-    def __get_last_checkpoint(self, string):
+    def _get_last_checkpoint(self, string):
         last_checkpoint = 0
         for char in string:
             if char != '\n':
@@ -241,10 +286,11 @@ class Kart(Surface):
     # méthode pour remettre le kart à sa position au dernier checkpoint
     def __return_to_checkpoint(self):
 
-        self._position = self.__position_checkpoint
-        self._orientation = self.__orientation_checkpoint
-        self._velocity = 0
-        self._death +=1
+        self._position = self._position_checkpoint
+        self.__orientation = self.__orientation_checkpoint
+        self.__velocity = 0
+        self.__death_count +=1
+        self.__death = True
 
 
 
