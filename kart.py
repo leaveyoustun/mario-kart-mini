@@ -52,6 +52,9 @@ class Kart(Surface):
         # Initialisation du compteur de morts et du booléen qui nous dit si le kart est mort ou pas
         self.__death_count = 0
         self.__death = False
+        
+        # Attribution de l'attribut kart
+        self.__controller.kart = self
 
     #Getter pour has_finished
     @property
@@ -167,7 +170,7 @@ class Kart(Surface):
 
                 # sinon, on stocke en mémoire la position et l'orientation du kart
                 else:
-                    self._position_checkpoint = self._position
+                    self.__position_checkpoint = self._position
                     self.__orientation_checkpoint= self.__orientation
                     self.__next_checkpoint += 1
                 
@@ -286,7 +289,7 @@ class Kart(Surface):
     # méthode pour remettre le kart à sa position au dernier checkpoint
     def __return_to_checkpoint(self):
 
-        self._position = self._position_checkpoint
+        self._position = self.__position_checkpoint
         self.__orientation = self.__orientation_checkpoint
         self.__velocity = 0
         self.__death_count +=1

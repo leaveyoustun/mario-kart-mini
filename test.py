@@ -8,11 +8,10 @@ Module qui permet de lancer des tests pour verifier que votre implementation est
 import sys
 import pickle as pk
 import time
-import pygame
+
 from track import Track
 from kart import Kart
 
-pygame.init()
 ERROR_STRING = "\n========================== ECHEC DU TEST ===========================\n"
 SUCCESS_STRING = "\n===================== VOTRE CODE A PASSE LE TEST ======================\n"
 MARGIN = 50
@@ -46,10 +45,6 @@ class SequencePlayer():
         else:
             command = self.sequence[self.time]
         self.time += 1
-        #print(pygame.key.get_pressed()[pygame.K_LEFT],pygame.key.get_pressed()[pygame.K_UP],pygame.key.get_pressed()[pygame.K_DOWN],pygame.key.get_pressed()[pygame.K_RIGHT])
-        #time.sleep(0.05)
-        #if pygame.key.get_pressed()[pygame.K_UP]:
-        #    time.sleep(0.02)
         return command
 
 
@@ -79,10 +74,9 @@ track.add_kart(kart)
 
 # Simulation de la sequence predefinie sur le circuit
 compteur = track.play()
-print(compteur, final_time)
+
 # On regarde si le kart a bien termine avec le bon nombre d'etapes
 assert compteur >= final_time - MARGIN, ERROR_STRING + \
     "Le kart a fini le circuit trop rapidement, il faut revoir votre implementation"
 
 print(SUCCESS_STRING)
-
