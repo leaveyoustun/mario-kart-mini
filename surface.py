@@ -1,6 +1,6 @@
 import pygame
 from abc import ABC, abstractmethod
-#from track import BLOCK_SIZE
+
 
 
 class Surface(ABC):

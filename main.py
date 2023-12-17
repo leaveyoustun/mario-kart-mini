@@ -15,16 +15,17 @@ GRRRRGGGGGGGGGGGGGGGGRRRRG
 GFFRRGGGGGGGGGGGGGGGGRRRRG
 GLRRRGGGGGGGGGGGGGGGGRRRRG
 GRRRRGGGGGGGGGGGGGGGGDDDDG
-GRRRRRERRRRRRRBRRRRRRRRRRG
+GRRRRRERRRRRRRBRRRRRRRRLLG
 GRRRRRERRRRRRRBRRRRRRRRRRG
 GLRRRRERRRRRGGBRRRRRRRRRRG
 GLLRRRERRRRRGGBRRRRRRRRRRG
 GGGGGGGGGGGGGGGGGGGGGGGGGG"""
 
+
+
 # La position et l'orientation initiale du kart
 initial_position = [75, 75]
 initial_angle = 0
-
 controller =  AI()  # ou AI()
 """
 ==================== ATTENTION =====================
@@ -36,3 +37,6 @@ controller.kart = kart
 track = Track(string, initial_position, initial_angle)
 track.add_kart(kart)
 track.play()
+
+
+
