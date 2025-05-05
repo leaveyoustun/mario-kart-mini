@@ -24,6 +24,7 @@ class AI(Controller):
         self.__y_act = 0
 
     def move(self, string):
+        time.sleep(0.02)
 
         # On normalise la position actuelle du kart pour avoir les coordonnées dans le grid
         self.__x_act = int(self.kart._position[0]/BLOCK_SIZE)

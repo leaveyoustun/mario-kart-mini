@@ -3,7 +3,7 @@ from checkpoint import Checkpoint
 from boost import Boost
 from lava import Lava
 from road import Road
-
+import time
 import pygame
 
 BLOCK_SIZE = 50
@@ -12,17 +12,6 @@ BACKGROUND_COLOR = (0, 0, 0)
 class Track(object):
     """
     Classe qui gere le deroulement et l'affichage d'une partie
-    
-    ===================================== ATTENTION ====================================
-    
-    VOUS NE DEVEZ PAS MODIFIER LA DEFINITION DE CETTE CLASSE
-    
-    VOUS DEVEZ TRAVAILLER SUR LES AUTRES FICHIERS ET VEILLER A CE 
-    QUE LE CODE QUE VOUS PRODUISEZ SOIT COMPATIBLE AVEC CETTE CLASSE
-    
-    (vous pouvez eventuellement reorganiser les imports en haut, mais c'est tout)
-    
-    ====================================================================================
     """
     
     # Ce dictionnaire permet de donner la classe et les parametres d'instanciation
@@ -149,6 +138,7 @@ class Track(object):
         for kart in self.karts:
             kart.reset(self.initial_position, self.initial_angle)
         
+        #time.sleep(0.02)
         # Boucle while pour le deroulement de la partie
         running = True
         compteur = 0
