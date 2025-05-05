@@ -10,10 +10,10 @@
 <p align="center">
   <br/>Keyboard
   <br/>
-  <video src="assets/human.mov" width="420" controls muted></video>
+  <video src="assets/human.mp4" width="420" controls muted></video>
   <br/>CPU
   <br/>
-  <video src="assets/ai.mov"     width="420" controls muted></video>
+  <video src="assets/ai.mp4"     width="420" controls muted></video>
 </p>
 
 
