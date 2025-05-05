@@ -5,19 +5,11 @@
 > • AI‑driven racing – `assets/ai.mov`
 
 
-<summary>📺 Show inline players</summary>
-
-<p align="center">
-  <br/>Keyboard
-  <br/>
-  <video src="assets/human.mp4" type="video/mp4" width="420" controls muted></video>
-  <br/>CPU
-  <br/>
-  <video src="assets/ai.mp4" type="video/mp4" width="420" controls muted></video>
-</p>
+<summary>📺 AI-bot demo</summary>
 
 
----
+![AI-bot demo](assets/ai.gif)
+
 
 ## 1 · What it is
 
