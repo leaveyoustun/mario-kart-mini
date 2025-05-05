@@ -35,7 +35,7 @@ A bite‑sized, top‑down **Mario Kart‑style** game built with **Pygame**:
 
 ## 2 · Track grammar
 
-Each character in the level string becomes a 32 × 32 px tile:
+Each character in the level string becomes a tile:
 
 | Char | Tile       | Behaviour                                                   |
 |------|------------|-------------------------------------------------------------|
